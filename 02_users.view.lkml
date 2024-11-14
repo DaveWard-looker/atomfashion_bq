@@ -53,7 +53,7 @@ view: users {
   }
 
   dimension: name {
-    required_access_grants: [is_signoff]
+
     sql: initcap(${first_name} || ' ' || ${last_name}) ;;
     drill_fields: [detail*]
 

@@ -1,4 +1,4 @@
-connection: "@{connection}"
+connection: "looker_bq_hub"
 label: "Atom Fashion"
 
 # include all the views
@@ -15,16 +15,6 @@ named_value_format: big_money {
   value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
 }
 
-
-access_grant: is_signoff {
-  allowed_values: ["Yes"]
-  user_attribute: is_signoff_manager
-}
-
-access_grant: brand_nike {
-  allowed_values: ["Nike"]
-  user_attribute: brand
-}
 
 # datagroup: 3_hours {
 #   sql_trigger: SELECT FLOOR(DATE_PART('EPOCH_SECOND', CURRENT_TIMESTAMP) / (3*60*60)) ;;
@@ -355,92 +345,3 @@ explore: sessions{
     sql_on: ${campaigns.campaign_id} = ${adgroups.campaign_id} ;;
   }
 }
-
-
-# Place in `atom_fashion` model
-explore: +order_items {
-  aggregate_table: rollup__created_week__0 {
-    query: {
-      dimensions: [created_week]
-      measures: [average_days_to_process]
-      filters: [
-        # "order_facts.is_first_purchase" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_facts.is_first_purchase: "Yes,No",
-        order_items.created_week: "2 weeks",
-        # "order_items.is_returned" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.is_returned: "No,Yes",
-        # "order_items.repeat_orders_within_15d" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.repeat_orders_within_15d: "Yes,No"
-      ]
-      timezone: "Europe/London"
-    }
-
-    materialization: {
-      datagroup_trigger: every_day
-    }
-  }
-
-  aggregate_table: rollup__created_week__1 {
-    query: {
-      dimensions: [created_week]
-      measures: [total_sale_price]
-      filters: [
-        # "order_facts.is_first_purchase" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_facts.is_first_purchase: "Yes,No",
-        order_items.created_week: "2 weeks",
-        # "order_items.is_returned" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.is_returned: "No,Yes",
-        # "order_items.repeat_orders_within_15d" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.repeat_orders_within_15d: "Yes,No"
-      ]
-      timezone: "Europe/London"
-    }
-
-    materialization: {
-      datagroup_trigger: every_day
-    }
-  }
-
-  aggregate_table: rollup__created_week__2 {
-    query: {
-      dimensions: [created_week]
-      measures: [total_tax_amount]
-      filters: [
-        # "order_facts.is_first_purchase" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_facts.is_first_purchase: "Yes,No",
-        order_items.created_week: "2 weeks",
-        # "order_items.is_returned" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.is_returned: "No,Yes",
-        # "order_items.repeat_orders_within_15d" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.repeat_orders_within_15d: "Yes,No"
-      ]
-      timezone: "Europe/London"
-    }
-
-    materialization: {
-      datagroup_trigger: every_day
-    }
-  }
-
-  aggregate_table: rollup__created_week__3 {
-    query: {
-      dimensions: [created_week]
-      measures: [total_returns]
-      filters: [
-        # "order_facts.is_first_purchase" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_facts.is_first_purchase: "Yes,No",
-        order_items.created_week: "2 weeks",
-        # "order_items.is_returned" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.is_returned: "No,Yes",
-        # "order_items.repeat_orders_within_15d" was filtered by dashboard. The aggregate table will only optimize against exact match queries.
-        order_items.repeat_orders_within_15d: "Yes,No"
-      ]
-      timezone: "Europe/London"
-    }
-
-    materialization: {
-      datagroup_trigger: every_day
-    }
-  }
-
- }
