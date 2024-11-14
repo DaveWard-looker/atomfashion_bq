@@ -39,7 +39,7 @@ view: users {
     sql: ${TABLE}.id ;;
     tags: ["atom-notification"]
     drill_fields: [detail*]
-    
+
   }
 
   dimension: first_name {
@@ -53,9 +53,10 @@ view: users {
   }
 
   dimension: name {
+    required_access_grants: [is_signoff]
     sql: initcap(${first_name} || ' ' || ${last_name}) ;;
     drill_fields: [detail*]
-    
+
   }
 
   measure: count_of_davids2 {
@@ -68,7 +69,7 @@ view: users {
     type: number
     sql: ${TABLE}.age ;;
     drill_fields: [detail*]
-    
+
   }
 
   dimension: age_tier {
@@ -87,7 +88,7 @@ view: users {
     style: integer
     sql: ${age} ;;
     drill_fields: [detail*]
-    
+
   }
 
   dimension: generation {
@@ -164,13 +165,13 @@ view: users {
       }
     }
     required_fields: [name]
-    
+
   }
 
   dimension: image_file {
     hidden: yes
     sql: ('http://www.looker.com/_content/docs/99-hidden/images/'||${gender_short}||'.jpg') ;;
-    
+
   }
 
   ## Demographics ##
@@ -178,7 +179,7 @@ view: users {
   dimension: city {
     sql: ${TABLE}.city ;;
     drill_fields: [detail*]
-    
+
   }
 
   dimension: state {
@@ -186,7 +187,7 @@ view: users {
     map_layer_name: us_states
     sql: ${TABLE}.state ;;
     drill_fields: [detail*]
-    
+
   }
 
   dimension: state_region {
@@ -222,20 +223,20 @@ view: users {
       else: "Not In US"
     }
     alpha_sort: yes
-    
+
   }
 
   dimension: zip {
     drill_fields: [detail*]
     type: zipcode
     sql: ${TABLE}.zip ;;
-    
+
   }
 
   dimension: country {
     drill_fields: [detail*]
     sql: ${TABLE}.country ;;
-    
+
   }
 
   dimension: location {
@@ -243,7 +244,7 @@ view: users {
     type: location
     sql_latitude: ${TABLE}.latitude ;;
     sql_longitude: ${TABLE}.longitude ;;
-    
+
   }
 
   dimension: approx_location {
@@ -251,7 +252,7 @@ view: users {
     type: location
     sql_latitude: round(${TABLE}.latitude,1) ;;
     sql_longitude: round(${TABLE}.longitude,1) ;;
-    
+
   }
 
   ## Other User Information ##
@@ -262,20 +263,20 @@ view: users {
     description: "Date a user account was first created"
     timeframes: [time, date, week, month, raw]
     sql: ${TABLE}.created_at_advance ;;
-    
+
   }
 
   dimension: history {
     sql: ${TABLE}.id ;;
     html: <a href="/explore/thelook/order_items?fields=order_items.detail*&f[users.id]={{ value }}">Order History</a>
       ;;
-    
+
   }
 
   dimension: traffic_source {
     sql: ${TABLE}.traffic_source ;;
     drill_fields: [detail*]
-    
+
   }
 
   ## MEASURES ##
@@ -284,7 +285,7 @@ view: users {
     description: "Count of the distinct number of Users"
     type: count
     drill_fields: [detail*]
-    
+
   }
 
   measure: count_percent_of_total {
@@ -292,35 +293,35 @@ view: users {
     type: percent_of_total
     value_format_name: decimal_1
     sql: ${count} ;;
-    
+
   }
 
   measure: average_age {
     type: average
     value_format_name: decimal_2
     sql: ${age} ;;
-    
+
   }
 
   dimension: is_user_created_in_last_60_days {
     hidden: yes
     type: yesno
     sql: date_diff( ${created_date}, current_date(), days) < 60 ;;
-    
+
   }
 
   dimension: is_user_created_in_last_month {
     hidden: yes
     type: yesno
     sql: date_diff( ${created_date}, current_date(), days) < 30 ;;
-    
+
   }
 
   dimension: is_user_created_in_last_day {
     hidden: yes
     type: yesno
     sql: ${created_date} = current_date()-7 ;;
-    
+
   }
 
   measure: count_users_this_month {

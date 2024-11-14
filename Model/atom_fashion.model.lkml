@@ -15,6 +15,17 @@ named_value_format: big_money {
   value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
 }
 
+
+access_grant: is_signoff {
+  allowed_values: ["Yes"]
+  user_attribute: is_signoff_manager
+}
+
+access_grant: brand_nike {
+  allowed_values: ["Nike"]
+  user_attribute: brand
+}
+
 # datagroup: 3_hours {
 #   sql_trigger: SELECT FLOOR(DATE_PART('EPOCH_SECOND', CURRENT_TIMESTAMP) / (3*60*60)) ;;
 # }

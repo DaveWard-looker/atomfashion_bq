@@ -17,6 +17,36 @@ view: order_items {
     sql: ${order_id} ;;
   }
 
+
+  dimension: navigation_buttons {
+    type: yesno
+    allow_fill: yes
+    sql: true ;;
+    html:
+      <div>
+        <a style="@{navigation_buttons_style}" href="/dashboards-next/6?@{navigation_buttons_filters}">Summary</a>
+        <a style="@{navigation_buttons_style}" href="/dashboards-next/7?@{navigation_buttons_filters}">Customer Behavior</a>
+      </div>
+    ;;
+  }
+
+
+  dimension: marketing_report_navigation_buttons {
+    type: yesno
+    allow_fill: yes
+    sql: true ;;
+    html:
+      <div>
+        <a style="@{navigation_buttons_style}" href="/dashboards-next/8?@{marketing_report_buttons_filters}">Summary</a>
+        <a style="@{navigation_buttons_style}" href="/dashboards-next/9?@{marketing_report_buttons_filters}">Market Drill Down</a>
+        <a style="@{navigation_buttons_style}" href="/dashboards-next/10?@{marketing_report_buttons_filters}">Channel Overview</a>
+        <a style="@{navigation_buttons_style}" href="/dashboards-next/11?@{marketing_report_buttons_filters}">Bounce Analysis</a>
+        <a style="@{navigation_buttons_style}" href="/dashboards-next/12?@{marketing_report_buttons_filters}">Ad Return</a>
+      </div>
+    ;;
+  }
+
+
   dimension: id {
     primary_key: yes
     type: number
@@ -336,6 +366,7 @@ view: order_items {
   }
 
   measure: total_gross_margin_percentage {
+    label: "Gross Margin Percent"
     type: number
     value_format_name: percent_2
     sql: 1.0 * ${total_gross_margin}/ nullif(${total_sale_price},0) ;;
