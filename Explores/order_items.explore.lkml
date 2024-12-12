@@ -81,30 +81,3 @@ explore: order_items {
     relationship: many_to_one
   }
 }
-
-
-# Place in `atom_fashion` model
-explore: +order_items {
-  aggregate_table: rollup__shipped_month__status {
-    query: {
-      dimensions: [
-        # "products.brand" is automatically filtered on in an access_filter.
-        # Uncomment to allow all possible filters to work with aggregate awareness.
-        # products.brand,
-        shipped_month,
-        status
-      ]
-      measures: [average_gross_margin, average_sale_price, average_shipping_time]
-      filters: [
-        # "products.brand" is automatically filtered on in an access_filter in this query.
-        # Remove this filter to allow all possible filters to work with aggregate awareness.
-        products.brand: "%"
-      ]
-      timezone: "America/Los_Angeles"
-    }
-
-    materialization: {
-      datagroup_trigger: every_day
-    }
-  }
-}
