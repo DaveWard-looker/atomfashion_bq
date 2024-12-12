@@ -42,10 +42,10 @@ datagroup: ecommerce_etl {
 
 explore: projected_revenue {
   label: "(7) Projected Revenue"
-  access_filter: {
-    field: projected_revenue.brand
-    user_attribute: brand
-    }
+  # access_filter: {
+  #   field: projected_revenue.brand
+  #   user_attribute: brand
+  #   }
 }
 
 explore: products {
