@@ -1,4 +1,4 @@
-connection: "looker_private_demo"
+connection: "looker_bq_hub"
 label: "Atom Fashion"
 
 # include all the views
