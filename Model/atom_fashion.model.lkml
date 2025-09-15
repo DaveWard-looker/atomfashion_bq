@@ -1,4 +1,4 @@
-connection: "looker_bq_hub"
+connection: "default_bigquery_connection"
 label: "Atom Fashion"
 
 # include all the views
